@@ -97,59 +97,113 @@ def health():
     }
 
 
-# =========================
-# 7. API NHẬN DIỆN BỆNH
-# =========================
-
-@app.post("/predict")
-async def predict(
-    file: UploadFile = File(...),
-    conf: float = 0.25
-):
-
-    # Kiểm tra confidence
-    if not 0 < conf <= 1:
-        raise HTTPException(
-            status_code=400,
-            detail="Confidence phải nằm trong khoảng (0, 1]."
-        )
-
-    # Đọc và kiểm tra nội dung ảnh thực tế
+async def read_uploaded_image(file: UploadFile) -> Image.Image:
     image_bytes = await file.read()
 
     try:
-        image = Image.open(BytesIO(image_bytes)).convert("RGB")
+        return Image.open(BytesIO(image_bytes)).convert("RGB")
     except Exception:
         raise HTTPException(
             status_code=400,
             detail="File tải lên không phải ảnh hợp lệ."
         )
 
-    try:
 
-        # =========================
-        # 8. DỰ ĐOÁN BẰNG YOLO
-        # =========================
+def detect_image(image: Image.Image, conf: float):
+    results = model.predict(
+        source=image,
+        imgsz=640,
+        conf=conf,
+        device="cpu",
+        verbose=False
+    )
+    return results[0]
 
-        results = model.predict(
-            source=image,
-            imgsz=640,
-            conf=conf,
-            device="cpu",
-            verbose=False
+
+def has_leaf_detection(result) -> bool:
+    return any(int(box.cls[0].item()) == 0 for box in result.boxes)
+
+
+def validate_confidence(conf: float) -> None:
+    if not 0 < conf <= 1:
+        raise HTTPException(
+            status_code=400,
+            detail="Confidence phải nằm trong khoảng (0, 1]."
         )
 
-        result = results[0]
+
+# =========================
+# 7. API KIỂM TRA ẢNH CÓ LÁ
+# =========================
+
+@app.post("/check-leaf")
+async def check_leaf(
+    file: UploadFile = File(...),
+    conf: float = 0.5
+):
+    validate_confidence(conf)
+    image = await read_uploaded_image(file)
+
+    try:
+        result = detect_image(image, conf)
+        leaf_boxes = [
+            box for box in result.boxes
+            if int(box.cls[0].item()) == 0
+        ]
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Lỗi khi xử lý ảnh: {str(e)}"
+        )
+
+    is_leaf = bool(leaf_boxes)
+    confidence = (
+        round(max(float(box.conf[0].item()) for box in leaf_boxes), 4)
+        if is_leaf
+        else None
+    )
+
+    return {
+        "success": True,
+        "filename": file.filename,
+        "is_leaf": is_leaf,
+        "confidence": confidence,
+        "status": "leaf_detected" if is_leaf else "leaf_not_detected",
+        "message": (
+            "Phát hiện vùng lá cây trong ảnh."
+            if is_leaf
+            else "Không phát hiện được vùng lá cây trong ảnh."
+        )
+    }
+
+
+# =========================
+# 8. API NHẬN DIỆN BỆNH
+# =========================
+
+@app.post("/predict")
+async def predict(
+    file: UploadFile = File(...),
+    conf: float = 0.5
+):
+    validate_confidence(conf)
+    image = await read_uploaded_image(file)
+
+    try:
+        result = detect_image(image, conf)
+        leaf_found = has_leaf_detection(result)
 
         # =========================
         # 9. VẼ BOUNDING BOX
         # =========================
 
-        annotated_image = result.plot()
-
-        annotated_pil = Image.fromarray(
-            annotated_image[:, :, ::-1].copy()
-        )
+        if leaf_found:
+            annotated_image = result.plot()
+            annotated_pil = Image.fromarray(
+                annotated_image[:, :, ::-1].copy()
+            )
+        else:
+            annotated_pil = image
 
         image_buffer = BytesIO()
 
@@ -169,8 +223,9 @@ async def predict(
 
         detections = []
         detected_diseases = {}
+        boxes_to_process = result.boxes if leaf_found else []
 
-        for box in result.boxes:
+        for box in boxes_to_process:
 
             class_id = int(box.cls[0].item())
             confidence = float(box.conf[0].item())
@@ -227,10 +282,6 @@ async def predict(
 
         disease_found = len(detected_diseases) > 0
 
-        leaf_found = any(
-            d["class_id"] == 0 for d in detections
-        )
-
         if disease_found:
 
             status = "disease_detected"
@@ -267,6 +318,7 @@ async def predict(
                 "height": image.height
             },
 
+            "is_leaf": leaf_found,
             "status": status,
             "message": message,
             "total_detections": len(detections),
