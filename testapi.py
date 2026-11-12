@@ -1,8 +1,5 @@
 
 import requests
-import base64
-from PIL import Image
-from io import BytesIO
 from tkinter import Tk, filedialog
 
 # 1. Chọn ảnh
@@ -50,19 +47,7 @@ if not data.get("success", False):
     print("Nhận diện thất bại:", data)
     raise SystemExit
 
-# 4. Lấy ảnh có bounding box
-if "annotated_image" not in data:
-    print("API không trả về ảnh đã vẽ khung!")
-    print(data)
-    raise SystemExit
-
-image_base64 = data["annotated_image"].split(",", 1)[1]
-image_bytes = base64.b64decode(image_base64)
-
-image = Image.open(BytesIO(image_bytes))
-image.show()
-
-# 5. Hiển thị kết quả nhận diện
+# 4. Hiển thị kết quả nhận diện
 print("\n===== KẾT QUẢ NHẬN DIỆN =====")
 print("Tên ảnh:", data.get("filename"))
 print("Trạng thái:", data.get("status"))
@@ -72,6 +57,5 @@ print("Tổng số đối tượng:", data.get("total_detections"))
 for item in data.get("detections", []):
     print("\nTên lớp:", item.get("class_name"))
     print("Độ tin cậy:", item.get("confidence"))
-    print("Bounding box:", item.get("bounding_box"))
 
 print("\nNhận diện thành công!")

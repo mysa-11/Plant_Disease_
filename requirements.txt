@@ -1,5 +1,5 @@
 fastapi
 uvicorn[standard]
-ultralytics
+ultralytics>=8.4.0
 python-multipart
 pillow

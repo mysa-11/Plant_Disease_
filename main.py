@@ -1,13 +1,12 @@
 
 from pathlib import Path
 import json
-import base64
 from io import BytesIO
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
-from ultralytics import YOLO
+from ultralytics import YOLO, YOLOE
 
 
 # =========================
@@ -17,6 +16,8 @@ from ultralytics import YOLO
 BASE_DIR = Path(__file__).resolve().parent
 
 MODEL_PATH = BASE_DIR / "best.pt"
+LEAF_MODEL_PATH = BASE_DIR / "yoloe-26l-seg.pt"
+LEAF_PROMPTS = ["a leaf from a plant"]
 CLASS_NAMES_PATH = BASE_DIR / "class_names_vi.json"
 DISEASES_PATH = BASE_DIR / "diseases.json"
 
@@ -50,6 +51,7 @@ DISEASES = {
 model = YOLO(str(MODEL_PATH))
 
 model.model.names = CLASS_NAMES
+leaf_model = None
 
 
 # =========================
@@ -120,6 +122,30 @@ def detect_image(image: Image.Image, conf: float):
     return results[0]
 
 
+def detect_leaf_image(image: Image.Image, conf: float):
+    global leaf_model
+
+    if leaf_model is None:
+        if not LEAF_MODEL_PATH.is_file():
+            raise HTTPException(
+                status_code=503,
+                detail=f"Không tìm thấy model nhận diện lá: {LEAF_MODEL_PATH}"
+            )
+
+        prompted_model = YOLOE(str(LEAF_MODEL_PATH))
+        prompted_model.set_classes(LEAF_PROMPTS)
+        leaf_model = prompted_model
+
+    results = leaf_model.predict(
+        source=image,
+        imgsz=640,
+        conf=conf,
+        device="cpu",
+        verbose=False
+    )
+    return results[0]
+
+
 def has_leaf_detection(result) -> bool:
     return any(int(box.cls[0].item()) == 0 for box in result.boxes)
 
@@ -139,17 +165,28 @@ def validate_confidence(conf: float) -> None:
 @app.post("/check-leaf")
 async def check_leaf(
     file: UploadFile = File(...),
-    conf: float = 0.5
+    conf: float = 0.2
 ):
     validate_confidence(conf)
     image = await read_uploaded_image(file)
 
     try:
-        result = detect_image(image, conf)
+        result = detect_leaf_image(image, conf)
         leaf_boxes = [
             box for box in result.boxes
             if int(box.cls[0].item()) == 0
         ]
+        bounding_boxes = [
+            {
+                "x1": round(float(box.xyxy[0][0].item()), 2),
+                "y1": round(float(box.xyxy[0][1].item()), 2),
+                "x2": round(float(box.xyxy[0][2].item()), 2),
+                "y2": round(float(box.xyxy[0][3].item()), 2)
+            }
+            for box in leaf_boxes
+        ]
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -168,6 +205,7 @@ async def check_leaf(
         "filename": file.filename,
         "is_leaf": is_leaf,
         "confidence": confidence,
+        "bounding_boxes": bounding_boxes,
         "status": "leaf_detected" if is_leaf else "leaf_not_detected",
         "message": (
             "Phát hiện vùng lá cây trong ảnh."
@@ -194,30 +232,6 @@ async def predict(
         leaf_found = has_leaf_detection(result)
 
         # =========================
-        # 9. VẼ BOUNDING BOX
-        # =========================
-
-        if leaf_found:
-            annotated_image = result.plot()
-            annotated_pil = Image.fromarray(
-                annotated_image[:, :, ::-1].copy()
-            )
-        else:
-            annotated_pil = image
-
-        image_buffer = BytesIO()
-
-        annotated_pil.save(
-            image_buffer,
-            format="JPEG",
-            quality=90
-        )
-
-        annotated_image_base64 = base64.b64encode(
-            image_buffer.getvalue()
-        ).decode("utf-8")
-
-        # =========================
         # 10. LẤY THÔNG TIN NHẬN DIỆN
         # =========================
 
@@ -230,8 +244,6 @@ async def predict(
             class_id = int(box.cls[0].item())
             confidence = float(box.conf[0].item())
 
-            x1, y1, x2, y2 = box.xyxy[0].tolist()
-
             class_name = CLASS_NAMES.get(
                 class_id,
                 "Không xác định"
@@ -240,13 +252,7 @@ async def predict(
             detection = {
                 "class_id": class_id,
                 "class_name": class_name,
-                "confidence": round(confidence, 4),
-                "bounding_box": {
-                    "x1": round(x1, 2),
-                    "y1": round(y1, 2),
-                    "x2": round(x2, 2),
-                    "y2": round(y2, 2)
-                }
+                "confidence": round(confidence, 4)
             }
 
             # Class 0: vùng lá cây
@@ -308,16 +314,6 @@ async def predict(
         return {
             "success": True,
             "filename": file.filename,
-
-            "annotated_image": (
-                f"data:image/jpeg;base64,{annotated_image_base64}"
-            ),
-
-            "image_size": {
-                "width": image.width,
-                "height": image.height
-            },
-
             "is_leaf": leaf_found,
             "status": status,
             "message": message,
