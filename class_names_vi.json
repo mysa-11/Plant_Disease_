@@ -1,11 +1,13 @@
 {
-    "0": "La cay",
-    "1": "Tao - Ghe tao",
-    "2": "Tao - Thoi den",
-    "3": "Tao - Gi sat",
+    "0": "Tao - Ghe tao",
+    "1": "Tao - Thoi den",
+    "2": "Tao - Gi sat",
+    "3": "Tao - Khoe manh",
     "4": "Ngo - Dom la xam",
     "5": "Ngo - Gi sat",
     "6": "Ngo - Chay la Bac",
-    "7": "Khoai tay - Dom vong",
-    "8": "Khoai tay - Moc suong"
+    "7": "Ngo - Khoe manh",
+    "8": "Khoai tay - Dom vong",
+    "9": "Khoai tay - Moc suong",
+    "10": "Khoai tay - Khoe manh"
 }

@@ -1,6 +1,6 @@
 [
     {
-        "ma_nhan": 1,
+        "ma_nhan": 0,
         "folder_goc": "Apple___Apple_scab",
         "ten_lop": "Apple_Apple_scab",
         "Tên cây trồng": "Táo",
@@ -11,7 +11,7 @@
         "Cách xử lí khi cây bị bệnh": "• Mục tiêu: hạn chế lây nhiễm sơ cấp (bào tử túi) và giảm nguồn bệnh qua đông. \n• Phun thuốc trừ nấm bảo vệ theo cảnh báo/khuyến cáo địa phương. Tài liệu nêu: lưu huỳnh–vôi, đồng hoặc chế phẩm sinh học (hướng hữu cơ) ; hoạt chất myclobutanil .\n• Khi chọn thuốc cần tính nguy cơ nấm kháng thuốc; một số thuốc còn ức chế được nấm trong giai đoạn ủ bệnh nếu dùng đúng liều và thời điểm. \n• Chỉ dùng thuốc đã đăng ký tại Việt Nam và theo nhãn."
     },
     {
-        "ma_nhan": 2,
+        "ma_nhan": 1,
         "folder_goc": "Apple___Black_rot",
         "ten_lop": "Apple_Black_rot",
         "Tên cây trồng": "Táo",
@@ -22,7 +22,7 @@
         "Cách xử lí khi cây bị bệnh": "• Cắt bỏ cành loét, thu gom quả thối/quả khô và đưa ra khỏi vườn để tiêu hủy.\n• Thuốc trừ nấm không hiệu quả trên vết loét ở cành, nên biện pháp canh tác/vệ sinh là chính. \n• Với bệnh trên lá và quả, dùng thuốc trừ nấm bảo vệ theo khuyến cáo (tài liệu có nhắc ví dụ captan). \n• Chỉ dùng thuốc đã đăng ký tại Việt Nam và theo nhãn."
     },
     {
-        "ma_nhan": 3,
+        "ma_nhan": 2,
         "folder_goc": "Apple___Cedar_apple_rust",
         "ten_lop": "Apple_Cedar_apple_rust",
         "Tên cây trồng": "Táo",
@@ -31,6 +31,17 @@
         "Nguyên nhân gây bệnh": "Do nấm Gymnosporangium juniperi-virginianae – nấm gỉ sắt cần hai ký chủ: bách xù/tuyết tùng đỏ (Juniperus, ký chủ chính) và táo/táo dại (ký chủ phụ). Nấm qua đông trong các khối u (galls) trên bách xù, chu kì khoảng 2 năm; mùa xuân có mưa, khối u hút nước phồng lên và tạo sợi nhầy màu cam (telial horns) phát tán bào tử sang táo. Táo dễ nhiễm nhất từ đầu nở hoa đến khoảng 30 ngày sau khi hoa nở.",
         "Cách phòng ngừa": "• Trồng giống táo kháng/ít nhiễm (tài liệu nêu ví dụ: Red Delicious, Empire, McIntosh, Liberty, Spartan…). \n• Loại bỏ ký chủ phụ (bách xù/tuyết tùng đỏ) trong bán kính khoảng 4–5 dặm (≈ 6–8 km) quanh vườn có thể ngăn lây nhiễm, nhưng khó thực hiện bền vững ngoài thực tế.\n• Phun phòng đúng giai đoạn mẫn cảm (đầu nở hoa đến khoảng 30 ngày sau nở).",
         "Cách xử lí khi cây bị bệnh": "• Thuốc ức chế sterol (SI, nhóm FRAC 3) hiệu quả nhất; các đợt phun SI cho ghẻ táo trước nay thường cũng kiểm soát được gỉ sắt. Mancozeb cũng được liệt kê. \n• Quản lí cả hai ký chủ: biện pháp trên ký chủ này thường cần đi kèm biện pháp trên ký chủ còn lại (giảm nguồn bệnh trên bách xù gần vườn nếu có thể). \n• Chỉ dùng thuốc đã đăng ký tại Việt Nam và theo nhãn."
+    },
+    {
+        "ma_nhan": 3,
+        "folder_goc": "Apple___healthy",
+        "ten_lop": "Apple_healthy",
+        "Tên cây trồng": "Táo",
+        "Tên bệnh": "Táo – Khỏe mạnh",
+        "Dấu hiệu nhận biết": "Lá xanh đều, không có đốm tròn ô-liu–nâu đen (ghẻ), đốm “mắt ếch” (thối đen) hay đốm cam–vàng (gỉ sắt); quả vỏ nhẵn, không sần nứt, không thối. Đối chiếu với nhãn 0–2.",
+        "Nguyên nhân gây bệnh": "Không có tác nhân gây bệnh được ghi nhận trên mẫu (lớp đối chứng “healthy” trong bộ dữ liệu PlantVillage).",
+        "Cách phòng ngừa": "Duy trì vệ sinh vườn (thu gom lá rụng, quả khô), tỉa cành thông thoáng, chọn giống kháng/ít nhiễm, giữ cây khỏe và theo dõi vườn định kì để phát hiện bệnh sớm.",
+        "Cách xử lí khi cây bị bệnh": "Không cần xử lí. Tiếp tục theo dõi định kì; chỉ phun thuốc phòng khi có cảnh báo dịch hại hoặc vườn có tiền sử bệnh."
     },
     {
         "ma_nhan": 4,
@@ -67,6 +78,17 @@
     },
     {
         "ma_nhan": 7,
+        "folder_goc": "Corn_(maize)___healthy",
+        "ten_lop": "Corn_healthy",
+        "Tên cây trồng": "Ngô (bắp)",
+        "Tên bệnh": "Ngô – Khỏe mạnh",
+        "Dấu hiệu nhận biết": "Lá xanh đều, không có vết hình chữ nhật xám giữa các gân (đốm lá xám), không có ổ bào tử đỏ gạch (gỉ sắt), không có vết hình điếu xì gà (cháy lá phương Bắc). Đối chiếu với nhãn 4–6.",
+        "Nguyên nhân gây bệnh": "Không có tác nhân gây bệnh được ghi nhận trên mẫu (lớp đối chứng “healthy” trong bộ dữ liệu PlantVillage).",
+        "Cách phòng ngừa": "Chọn giống/lai kháng, luân canh, cày vùi tàn dư và theo dõi ruộng định kì để phát hiện bệnh sớm.",
+        "Cách xử lí khi cây bị bệnh": "Không cần xử lí. Tiếp tục theo dõi ruộng; chỉ phun thuốc khi bệnh xuất hiện và vượt ngưỡng cần can thiệp theo khuyến cáo."
+    },
+    {
+        "ma_nhan": 8,
         "folder_goc": "Potato___Early_blight",
         "ten_lop": "Potato_Early_blight",
         "Tên cây trồng": "Khoai tây",
@@ -77,7 +99,7 @@
         "Cách xử lí khi cây bị bệnh": "• Theo dõi ruộng; nguy cơ tăng sau khi tán lá khép kín và củ bắt đầu phình (khoảng 300 p-day theo hệ thống của Maine) – nên bắt đầu quản lí từ giai đoạn này. \n• Phun thuốc trừ nấm bảo vệ lá đã đăng ký, luân phiên hoạt chất, theo khuyến cáo địa phương.\n• Giữ cây khỏe, hạn chế stress để giảm mức nhiễm. \n• Chỉ dùng thuốc đã đăng ký tại Việt Nam và theo nhãn."
     },
     {
-        "ma_nhan": 8,
+        "ma_nhan": 9,
         "folder_goc": "Potato___Late_blight",
         "ten_lop": "Potato_Late_blight",
         "Tên cây trồng": "Khoai tây",
@@ -86,5 +108,16 @@
         "Nguyên nhân gây bệnh": "Do Phytophthora infestans – không phải nấm thật mà là oomycete (nấm nước). Nguồn bệnh ban đầu: củ giống nhiễm, đống củ loại bỏ, cây khoai mọc tự nhiên và ký chủ khác. Bào tử (sporangia) lan theo gió và nước mưa bắn; bệnh bùng phát khi ẩm ướt, mưa nhiều, độ ẩm cao và nhiệt độ vừa (khoảng 15–27°C / 60–80°F). Củ có thể nhiễm ở mọi giai đoạn, trước hoặc sau thu hoạch.",
         "Cách phòng ngừa": "• Dùng củ giống sạch bệnh (có chứng nhận), không trồng khoai mua để ăn; không trộn lô giống vì cắt củ có thể lây bệnh. \n• Tiêu hủy củ loại bỏ và cây khoai mọc tự nhiên. \n• Có thể xử lí củ giống bằng thuốc đã đăng ký trị mốc sương. \n• Đây là “bệnh cộng đồng”: cần phối hợp quản lí giữa các ruộng lân cận.",
         "Cách xử lí khi cây bị bệnh": "• Khi nghi mốc sương: xác nhận chẩn đoán (dễ nhầm với héo sớm hoặc mốc xám) và liên hệ cán bộ khuyến nông/BVTV địa phương.\n• Phun thuốc trừ nấm chuyên trị theo khuyến cáo; nên xác định nòi (genotype) của mầm bệnh để chọn thuốc phù hợp vì có nòi kháng một số hoạt chất. \n• Tiêu hủy cây bệnh nặng, củ loại bỏ, cây mọc tự nhiên. \n• Loại củ có vết bệnh trước khi nhập kho (củ nhiễm có thể thối mềm khi bảo quản). \n• Chỉ dùng thuốc đã đăng ký tại Việt Nam và theo nhãn."
+    },
+    {
+        "ma_nhan": 10,
+        "folder_goc": "Potato___healthy",
+        "ten_lop": "Potato_healthy",
+        "Tên cây trồng": "Khoai tây",
+        "Tên bệnh": "Khoai tây – Khỏe mạnh",
+        "Dấu hiệu nhận biết": "Lá xanh đều, không có đốm nâu có vòng đồng tâm (đốm vòng), không có đốm úng nước lan nhanh chuyển nâu đen (mốc sương); củ vỏ lành, không có vết lõm nâu/thối khô. Đối chiếu với nhãn 8–9.",
+        "Nguyên nhân gây bệnh": "Không có tác nhân gây bệnh được ghi nhận trên mẫu (lớp đối chứng “healthy” trong bộ dữ liệu PlantVillage).",
+        "Cách phòng ngừa": "Dùng củ giống sạch bệnh, luân canh, giữ cây khỏe, thu dọn tàn dư và theo dõi ruộng định kì (đặc biệt khi thời tiết ẩm mát).",
+        "Cách xử lí khi cây bị bệnh": "Không cần xử lí. Tiếp tục theo dõi ruộng; chỉ can thiệp khi xuất hiện triệu chứng hoặc có cảnh báo dịch bệnh."
     }
 ]

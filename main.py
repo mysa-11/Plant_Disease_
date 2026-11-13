@@ -82,8 +82,9 @@ def home():
     return {
         "message": "Plant Disease Detection API is running",
         "model": "YOLO11n",
-        "number_of_classes": 9,
-        "supported_diseases": 8
+        "number_of_classes": 11,
+        "supported_diseases": 8,
+        "healthy_classes": 3
     }
 
 
